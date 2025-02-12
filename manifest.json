@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "Partslink Notes",
+    "version": "1.0",
+    "description": "Create a list of necessary part numbers",
+    "content_scripts": [
+      {
+        "matches": ["https://www.partslink24.com/*"],
+        "js": ["content.js"]
+      }
+    ],
+    "icons": {
+      "16": "icon16.jpg",
+      "32": "icon32.jpg",
+      "48": "icon48.jpg",
+      "128": "icon128.png"
+    }
+  }
+  
