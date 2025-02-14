@@ -1,0 +1,94 @@
+:root{
+    --Primary: #F7C400;
+    --secondary: #4E4B45;
+    --highlight: #F3F3F3;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: var(--Primary);
+    padding: 0;
+    margin: 0;
+}
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--Primary);
+    width: 400px;
+    padding: 5px 5px 0px 5px;
+}
+
+nav .logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+nav img{
+    width: 24px;
+    height: auto;
+    display: block;
+}
+
+nav h1{
+    font-size: 16px;
+    color: white;
+    margin: 0;
+}
+
+nav svg{
+    border-radius: 5px;
+    transition: background .2s ease;
+    cursor: pointer;
+}
+
+nav svg:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.partnum-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 95%;
+    border-radius: 5px;
+    background-color: var(--highlight);
+    margin: 5px;
+    padding: 2px 5px 2px 5px;
+}
+
+.prev-partnum{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--secondary);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    width: 95%;
+}
+
+.prev-partnum p{
+    color: white;
+}
+
+.prev-partnum .description{
+    text-align: center;
+}
+
+.prev-partnum .partnum:hover{
+    color: var(--Primary);
+    cursor: pointer;
+}
+
+
+

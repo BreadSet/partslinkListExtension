@@ -1,19 +1,29 @@
 {
-    "manifest_version": 3,
-    "name": "Partslink Notes",
-    "version": "1.0",
-    "description": "Create a list of necessary part numbers",
-    "content_scripts": [
+  "manifest_version": 3,
+  "name": "Partslink Notes",
+  "version": "1.1",
+  "description": "Create a list of necessary part numbers",
+  "permissions": ["clipboardWrite", "storage"],
+  "host_permissions": ["https://www.partslink24.com/*"],
+  "content_scripts": [
       {
-        "matches": ["https://www.partslink24.com/*"],
-        "js": ["content.js"]
+          "matches": ["https://www.partslink24.com/*"],
+          "js": ["content.js"]
       }
-    ],
-    "icons": {
+  ],
+  "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+          "16": "icon16.jpg",
+          "32": "icon32.jpg",
+          "48": "icon48.jpg",
+          "128": "icon128.png"
+      }
+  },
+  "icons": {
       "16": "icon16.jpg",
       "32": "icon32.jpg",
       "48": "icon48.jpg",
       "128": "icon128.png"
-    }
   }
-  
+}

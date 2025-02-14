@@ -1,6 +1,6 @@
 Privacy Policy for Partslink Notes
 
-Effective Date: [Insert Date]
+Effective Date: 13/02/2025
 
 1. Introduction
 Welcome to Partslink Notes. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect the data you interact with while using our Chrome extension.
@@ -22,7 +22,3 @@ You have full control over the data stored by Partslink Notes. You can delete sa
 
 7. Changes to This Privacy Policy
 We may update this Privacy Policy from time to time. Any changes will be reflected in an updated version available within the extension or on our website.
-
-8. Contact Information
-If you have any questions or concerns regarding this Privacy Policy, please contact us at:
-Email: Thekaraliss@gmail.com
