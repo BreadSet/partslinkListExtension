@@ -64,6 +64,8 @@ nav svg:hover{
     background-color: var(--highlight);
     margin: 5px;
     padding: 2px 5px 2px 5px;
+    overflow-y: scroll;
+    max-height: 200px;
 }
 
 .prev-partnum{
@@ -90,5 +92,11 @@ nav svg:hover{
     cursor: pointer;
 }
 
+h3{
+    padding: 10px 0px 10px 0px;
+}
 
+.lockIcon{
+    padding: 1px;
+}
 
