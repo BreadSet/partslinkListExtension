@@ -37,10 +37,11 @@ const addButton = (part) => {
 
     //animate button on click
     const svg = button.querySelector("svg")
+    svg.style.transition = "all .3s ease"
 
     btnContainer.addEventListener("mousedown", () => {
-        svg.setAttribute("height", "20px")
-        svg.setAttribute("width", "20px")
+        svg.setAttribute("height", "14px")
+        svg.setAttribute("width", "14px")
 
         setTimeout(function(){
             svg.setAttribute("height", "24px")

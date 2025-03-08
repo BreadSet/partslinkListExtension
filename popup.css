@@ -54,8 +54,12 @@ nav svg:hover{
     background-color: rgba(0, 0, 0, 0.2);
 }
 
+.active{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 .partnum-container{
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -100,3 +104,121 @@ h3{
     padding: 1px;
 }
 
+.emailContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 95%;
+    border-radius: 5px;
+    background-color: var(--highlight);
+    margin: 5px;
+    padding: 5px;
+}
+
+.emailContainer .varContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: white;
+}
+
+.varContainer div{
+    display: flex;
+    flex-direction: row;
+    background-color: var(--secondary);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.varContainer div p{
+    margin-right: 5px;
+}
+
+.varContainer div input{
+    background: none;
+    border: none;
+    color: white;
+}
+
+.varContainer div input::placeholder{
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.varContainer div input:focus{
+    outline: none;
+}
+
+.varContainer button{
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: all .3s ease;
+}
+
+.varContainer button:hover{
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.varContainer .right{
+    background-color: var(--Primary);
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.varContainer .right:hover{
+    background-color: var(--secondary);
+}
+
+.emailContainer .exampleEmail{
+    background-color: var(--secondary);
+    width: 95%;
+    border-radius: 5px;
+    padding: 5px 5px 15px 15px;
+    margin-top: 5px;
+}
+
+.exampleEmail p{
+    color: white;
+}
+
+.exampleEmail div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    overflow: hidden;
+}
+
+.exampleEmail div h5{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--Primary);
+    color: white;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 5px;
+    transform: translateY(-30px);
+    transition: all .3s ease;
+}
+
+.exampleEmail div svg:hover{
+    cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(82%) sepia(51%) saturate(1628%) hue-rotate(355deg) brightness(93%) contrast(108%);
+}
+
+.selected{
+    color: var(--Primary) !important;
+}
+
+.exampleEmail span{
+    color: var(--Primary);
+}
