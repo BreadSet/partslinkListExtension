@@ -1,21 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const resetBtn = document.getElementById("resetIcon")
+    //VARIABLES
     let partContainer = document.querySelector(".partnum-container")
 
-    function clear() {
-        chrome.storage.local.clear(() => {
-            console.log("Storage cleared.")
-        });
-    
-        // clear the display
-        const partContainer = document.querySelector(".partnum-container")
-        partContainer.innerHTML = ""
-    }
+    const resetBtn = document.getElementById("resetIcon")
+    const parts = document.getElementById("partNums")
 
-    if (resetBtn) {
-        resetBtn.addEventListener("click", clear)
-    }
+    const email = document.getElementById("email")
+    const partsBtn = document.getElementById("listIcon")
+    const emailBtn = document.getElementById("emailIcon")
+    const emailContainer = document.getElementById("emailContainer")
+    const confirmBtn = document.getElementById("confirm")
+    const toInput = document.getElementById("recipient")
+    const priceBtn = document.getElementById("price")
+    const etaBtn = document.getElementById("eta")
 
+    const dropdownBtn = document.getElementById("toggleOpening")
+    const dropdownContent = document.getElementById("dropdown")
+    const arrow = document.getElementById("arrowIcon")
+
+    const openingInput = document.getElementById("openingInput")
+
+    const emailCopyBtn = document.getElementById("emailCopy")
+    const coppiedLabel = document.getElementById("coppied")
+
+    const changesBtn =  document.getElementById("changesBtn")
+    const changesDropDwn = document.getElementById("changesDropDwn")
+
+    //UPDATE DISPLAY
     function updateDisplayedParts() {
         chrome.storage.local.get({ savedParts: [] }, (data) => {
             let savedParts = data.savedParts
@@ -32,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p class="time">${part.time}</p>`
     
                     partContainer.appendChild(partDiv)
-                });
+                })
             } else {
                 const message = document.createElement("h3")
                 message.innerHTML = "No part numbers to show yet!"
@@ -41,14 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    //COPY NUMBER
-    document.addEventListener("click", (event) => {
-        if (event.target.classList.contains("partnum")) {
-            navigator.clipboard.writeText(event.target.innerText)
-        }
-    })
     updateDisplayedParts()
-    
 
     chrome.storage.onChanged.addListener((changes, namespace) => {
         if (namespace === "local" && changes.savedParts) {
@@ -56,26 +60,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-    document.querySelectorAll(".partnum").forEach(partNum => {
-        partNum.addEventListener("click", () => {
-    
-            let partNumberText = partNum.innerText
-            navigator.clipboard.writeText(partNumberText)
+    //Clear
+    function clear() {
+        chrome.storage.local.clear(() => {
+            console.log("Storage cleared.")
         })
+    
+        // clear the display
+        const partContainer = document.querySelector(".partnum-container")
+        partContainer.innerHTML = ""
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener("click", clear)
+    }
+
+    //COPY NUMBER
+    document.addEventListener("click", (event) => {
+        if (event.target.classList.contains("partnum")) {
+            navigator.clipboard.writeText(event.target.innerText)
+        }
     })
 
     //CHANGE PAGES
-
-        //containers
-    const parts = document.getElementById("partNums")
-    const email = document.getElementById("email")
-
-        //btns
-    const partsBtn = document.getElementById("listIcon")
-    const emailBtn = document.getElementById("emailIcon")
-
-    partsBtn.setAttribute("class", "active")
-
     function handlePages() {
         if (partsBtn.getAttribute("class") === "active") {
             parts.style.display = "flex"
@@ -86,94 +93,129 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    handlePages()
+    partsBtn.setAttribute("class", "active")
+
+    function handlePageButtons(active) {
+        if (active) {
+            emailBtn.setAttribute("class", "active")
+            partsBtn.setAttribute("class", "")
+        } else {
+            emailBtn.setAttribute("class", "")
+            partsBtn.setAttribute("class", "active")
+        }
+        handlePages()
+    }
 
     emailBtn.addEventListener("click", () =>{
-        emailBtn.setAttribute("class", "active")
-        partsBtn.setAttribute("class", "")
-        console.log(partsBtn.getAttribute("class"))
-        handlePages()
+        handlePageButtons(true)
+        
     })
 
     partsBtn.addEventListener("click", () =>{
-        emailBtn.setAttribute("class", "")
-        partsBtn.setAttribute("class", "active")
-        console.log(partsBtn.getAttribute("class"))
-        handlePages()
+        handlePageButtons(false)
+
     })
 
     //EMAILS
-    const emailContainer = document.getElementById("emailContainer")
-    const confirmBtn = document.getElementById("confirm")
-    const toInput = document.getElementById("recipient")
+
+        //dropdown
+        function handleEmailState(state){
+            if (state === "open") {
+                dropdownContent.style.display = "flex"
+                arrow.style.rotate = "180deg"
+            } else {
+                dropdownContent.style.display = "none"
+            arrow.style.rotate = "0deg"
+            }
+        }
+
+    dropdownBtn.addEventListener("click", () => {
+        if (dropdownContent.style.display === "flex") {
+            handleEmailState()
+        } else {
+            handleEmailState("open")
+        }
+    })
+        //close if clicked outside
+    document.addEventListener("click", (event) => {
+        if (!dropdownContent.contains(event.target) && !dropdownBtn.contains(event.target)) {
+            handleEmailState()
+        }
+    })
+
+    //change format
     
-    const priceBtn = document.getElementById("price")
-    const etaBtn = document.getElementById("eta")
-
-        //change email format
-        const defaultEmail = document.createElement("p")
-
         //variables
         let price = false
         let eta = false
         let subject = "EMPTY"
         let multi
+        let Opening = "Hi"
         let recipient = ""
-        
 
-        function getParts() {
-            chrome.storage.local.get({ savedParts: [] }, (data) => {
-                let savedParts = data.savedParts
-        
-                let multi = savedParts.length > 1
-        
-                defaultEmail.innerHTML = `Hi ${recipient}, <br><br> Could you provide the ${subject} for the following part${multi ? "s" : ""}?`
-        
-                if (savedParts.length > 0) {
-                    savedParts.forEach(part => {
+    const defaultEmail = document.createElement("p")
+    const dropdownItems = dropdownContent.querySelectorAll("p")
 
-                        let partElement = document.createElement('p')
-                        partElement.classList.add('part-item')
-                        partElement.innerHTML = `${part.partNum}`
-                        defaultEmail.appendChild(partElement)
-                    })
-                } else {
-                    defaultEmail.innerHTML = "Copy a part number to get started."
-                }
-            })
-        }
-        
-        chrome.storage.onChanged.addListener((changes, areaName) => {
-            if (areaName === 'local' && changes.savedParts) {
-                getParts()
+        //select opening
+    dropdownItems.forEach(item => {
+        item.addEventListener("click", () => {
+            openingInput.value = item.innerHTML
+            handleEmailState()
+        })
+    })
+
+    function getParts() {
+        chrome.storage.local.get({ savedParts: [] }, (data) => {
+            let savedParts = data.savedParts
+    
+            let multi = savedParts.length > 1
+            
+            Opening = openingInput.value
+
+            defaultEmail.innerHTML = `${Opening} ${recipient}, <br><br> Could you provide the ${subject} for the following part${multi ? "s" : ""}?`
+    
+            if (savedParts.length > 0) {
+                savedParts.forEach(part => {
+
+                    let partElement = document.createElement('p')
+                    partElement.classList.add('part-item')
+                    partElement.innerHTML = `${part.partNum}`
+                    defaultEmail.appendChild(partElement)
+                })
+            } else {
+                defaultEmail.innerHTML = "Copy a part number to get started."
             }
         })
-        getParts()
-        
-        emailContainer.append(defaultEmail)
+    }
 
-        priceBtn.addEventListener("click", () => {
-            price = !price
-            priceBtn.setAttribute("class", price ? "selected" : "")
-        })
-
-        etaBtn.addEventListener("click", () =>{
-            eta = !eta
-            etaBtn.setAttribute("class", eta ? "selected" : "")
-        })
-
-        confirmBtn.addEventListener("click", () =>{
-            subject = price && eta ? "price & ETA" : price ? "price" : eta ? "ETA" : "EMPTY";
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+        if (areaName === 'local' && changes.savedParts) {
             getParts()
-            recipient = `${toInput.value}`
-            defaultEmail.innerHTML = `Hi ${recipient}, <br><br> Could you provide the ${subject} for the following part${multi ? "s" : ""}?`
-            emailContainer.append(defaultEmail)
-        })
+        }
+    })
+    getParts()
 
-        //copy email
-    const emailCopyBtn = document.getElementById("emailCopy")
-    const coppiedLabel = document.getElementById("coppied")
+    emailContainer.append(defaultEmail)
 
+    priceBtn.addEventListener("click", () => {
+        price = !price
+        priceBtn.setAttribute("class", price ? "selected" : "")
+    })
+
+    etaBtn.addEventListener("click", () =>{
+        eta = !eta
+        etaBtn.setAttribute("class", eta ? "selected" : "")
+    })
+
+    confirmBtn.addEventListener("click", () =>{
+        subject = price && eta ? "price & ETA" : price ? "price" : eta ? "ETA" : "EMPTY"
+        getParts()
+        recipient = `${toInput.value}`
+        defaultEmail.innerHTML = `Hi ${recipient}, <br><br> Could you provide the ${subject} for the following part${multi ? "s" : ""}?`
+        emailContainer.append(defaultEmail)
+    })
+
+    //copy email
     const upPos = "30"
 
     emailCopyBtn.addEventListener("click", () =>{
@@ -182,5 +224,10 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(function(){
             coppiedLabel.style.translate = `0px -${upPos}px`
         }, 1000)
+    })
+
+    //CHANGES DROPDOWN
+    changesBtn.addEventListener("click", () =>{
+        changesDropDwn.style.display = changesDropDwn.style.display === "flex" ? "none" : "flex"
     })
 })
